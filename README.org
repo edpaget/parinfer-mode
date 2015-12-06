@@ -1,0 +1,8 @@
+#+TITLE: parinfer-mode
+#+AUTHOR: Edward Paget
+
+This mode provides a [[http://shaunlebron.github.io/parinfer/index.html][parinfer]] mode for Emacs
+
+* License
+
+Copyright Edward Paget, 2015. Licensed under the GPLv3. See LICENSE for Details
