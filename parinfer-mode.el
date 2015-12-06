@@ -34,14 +34,22 @@
 (defun parinfer-mode-indent-mode ()
   (parinfer-mode-post "http://localhost:8088/indent-mode"
                       (buffer-string)
-                      (- (point) 1)
+                      (column-number-at-pos (point))
+                      (- (line-number-at-pos) 1)))
+
+(defun parinfer-mode-paren-mode ()
+  (parinfer-mode-post "http://localhost:8088/paren-mode"
+                      (buffer-string)
+                      (column-number-at-pos (point))
                       (- (line-number-at-pos) 1)))
 
 (define-minor-mode parinfer-mode
   "Uses Parinfer to Format lispy code"
   :ligher " parinfer"
   (if parinfer-mode
-      (add-hook 'post-command-hook 'parinfer-mode-indent-mode nil t)
+      (progn
+        (parinfer-mode-paren-mode)
+        (add-hook 'post-command-hook 'parinfer-mode-indent-mode nil t))
     (remove-hook 'post-command-hook 'parinfer-mode-indent-mode t)))
 
 (provide 'parinfer-mode)

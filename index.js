@@ -10,14 +10,14 @@ var handler = function(req, res) {
 
     req.on('end', function() {
         var obj = JSON.parse(body);
-        console.log(obj);
 
         if (req.url == "/indent-mode") {
             res.end(parinfer.indentMode(obj.text, {"cursorX": obj.cursor,
                                                    "cursorLine": obj.line}).text + "\n");
         }
         else if (req.url == "/paren-mode") {
-            res.end(parinfer.indentMode(body).text + "\n");
+            res.end(parinfer.indentMode(obj.text, {"cursorX": obj.cursor,
+                                                   "cursorLine": obj.line}).text + "\n");
         }
         else if (req.url == "/indent-mode-changed") {
             res.end(parinfer.indentMode(body).text + "\n");
