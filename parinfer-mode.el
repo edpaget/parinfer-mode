@@ -1,21 +1,47 @@
 ;;; -*- lexical-binding: t -*-
 
-(defvar proc
-  (start-process-shell-command "parinfer" "*parinfer-process*" "./bin/parinfer-mode"))
+(require 'json)
 
-(defun parinfer-mode-post (url text)
+;;(start-process-shell-command "parinfer" "*parinfer-process*" "./bin/parinfer-mode")
+
+(defmacro -> (&rest body)
+  (let ((result (pop body)))
+    (dolist (form body result)
+      (setq result (append (list (car form) result)
+                           (cdr form))))))
+
+(defun parinfer-mode-post (url text cursor line)
   (let ((url-request-method "POST")
-        (url-request-extra-headers '(("Content-Type" . "text/plain")))
-        (url-request-data text))
+        (url-request-extra-headers '(("Content-Type" . "application/json")))
+        (url-request-data (-> '()
+                              (plist-put :text text)
+                              (plist-put :cursor cursor)
+                              (plist-put :line line)
+                              (json-encode))))
     (url-retrieve url (parinfer-mode-kill-and-replace-buffer))))
 
 (defun parinfer-mode-kill-and-replace-buffer ()
-  (let ((old-buffer (current-buffer)))
+  (let ((old-buffer (current-buffer))
+        (old-point (point)))
     (lambda (status)
-      ;;      (copy-to-buffer old-buffer 1 (buffer-size))
       (re-search-forward "^$" nil 'move)
       (forward-char)
       (copy-to-buffer old-buffer (point) (buffer-size))
-      (kill-buffer (current-buffer)))))
+      (kill-buffer (current-buffer))
+      (switch-to-buffer old-buffer)
+      (goto-char old-point))))
 
-(parinfer-mode-post "http://localhost:8088/indent-mode" (buffer-string))
+(defun parinfer-mode-indent-mode ()
+  (parinfer-mode-post "http://localhost:8088/indent-mode"
+                      (buffer-string)
+                      (- (point) 1)
+                      (- (line-number-at-pos) 1)))
+
+(define-minor-mode parinfer-mode
+  "Uses Parinfer to Format lispy code"
+  :ligher " parinfer"
+  (if parinfer-mode
+      (add-hook 'post-command-hook 'parinfer-mode-indent-mode nil t)
+    (remove-hook 'post-command-hook 'parinfer-mode-indent-mode t)))
+
+(provide 'parinfer-mode)
