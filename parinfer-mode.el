@@ -4,7 +4,7 @@
 
 ;;(start-process-shell-command "parinfer" "*parinfer-process*" "./bin/parinfer-mode")
 
-(defmacro -> (&rest body)
+(defmacro parinfer-mode-> (&rest body)
   (let ((result (pop body)))
     (dolist (form body result)
       (setq result (append (list (car form) result)
@@ -13,11 +13,11 @@
 (defun parinfer-mode-post (url text cursor line)
   (let ((url-request-method "POST")
         (url-request-extra-headers '(("Content-Type" . "application/json")))
-        (url-request-data (-> '()
-                              (plist-put :text text)
-                              (plist-put :cursor cursor)
-                              (plist-put :line line)
-                              (json-encode))))
+        (url-request-data (parinfer-mode-> '()
+                                           (plist-put :text text)
+                                           (plist-put :cursor cursor)
+                                           (plist-put :line line)
+                                           (json-encode))))
     (url-retrieve url (parinfer-mode-kill-and-replace-buffer))))
 
 (defun parinfer-mode-kill-and-replace-buffer ()
