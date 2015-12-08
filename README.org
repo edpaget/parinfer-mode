@@ -13,6 +13,15 @@ This mode provides a [[http://shaunlebron.github.io/parinfer/index.html][parinfe
 - eval the file
 - run =M-x parinfer-mode= to activate it for a buffer
 
+* Contributing
+
+Send me a Pull Request. I'll added you as a Collaborator!
+
+* Authors
+
+- [[https://github.com/edpaget/][Edward Paget]]
+- [[https://github.com/aweiksnar][Alex Weiksnar]]
+
 * License
 
-Copyright Edward Paget, 2015. Licensed under the GPLv3. See LICENSE for Details
+Licensed under the GPLv3. See LICENSE for Details
