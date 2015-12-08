@@ -34,13 +34,13 @@
 (defun parinfer-mode-indent-mode ()
   (parinfer-mode-post "http://localhost:8088/indent-mode"
                       (buffer-string)
-                      (column-number-at-pos (point))
+                      (current-column)
                       (- (line-number-at-pos) 1)))
 
 (defun parinfer-mode-paren-mode ()
   (parinfer-mode-post "http://localhost:8088/paren-mode"
                       (buffer-string)
-                      (column-number-at-pos (point))
+                      (current-column)
                       (- (line-number-at-pos) 1)))
 
 (define-minor-mode parinfer-mode
