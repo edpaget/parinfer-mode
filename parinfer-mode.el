@@ -49,7 +49,7 @@
   (if parinfer-mode
       (progn
         (parinfer-mode-paren-mode)
-        (add-hook 'post-command-hook 'parinfer-mode-indent-mode nil t))
-    (remove-hook 'post-command-hook 'parinfer-mode-indent-mode t)))
+        (add-hook 'post-self-insert-hook 'parinfer-mode-indent-mode nil t))
+    (remove-hook 'post-self-insert-hook 'parinfer-mode-indent-mode t)))
 
 (provide 'parinfer-mode)
