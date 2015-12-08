@@ -15,7 +15,7 @@ This mode provides a [[http://shaunlebron.github.io/parinfer/index.html][parinfe
 
 * Contributing
 
-Send me a Pull Request. I'll added you as a Collaborator!
+Send me a Pull Request. I'll add you as a Collaborator!
 
 * Authors
 
