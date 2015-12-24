@@ -45,7 +45,7 @@
 
 (define-minor-mode parinfer-mode
   "Uses Parinfer to Format lispy code"
-  :ligher " parinfer"
+  :lighter " parinfer"
   (if parinfer-mode
       (progn
         (parinfer-mode-paren-mode)
