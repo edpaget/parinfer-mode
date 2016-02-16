@@ -1,14 +1,11 @@
 #+TITLE: parinfer-mode
 #+AUTHOR: Edward Paget
 
-This mode provides a [[http://shaunlebron.github.io/parinfer/index.html][parinfer]] mode for Emacs
+This package provides a [[http://shaunlebron.github.io/parinfer/index.html][parinfer]] mode for Emacs
 
 * Usage
 
 - Clone this repo
-- =cd= into the directory
-- =npm install .=
-- =./bin/parinfer-mode= - note it is hardcoded to port 8088 at the moment, so make sure that port is open
 - open =parinfer-mode.el= in emacs
 - eval the file
 - run =M-x parinfer-mode= to activate it for a buffer
