@@ -1,51 +1,31 @@
-;;; -*- lexical-binding: t -*-
+(load-file "./parinferlib.el")
 
-(require 'json)
-
-;;(start-process-shell-command "parinfer" "*parinfer-process*" "./bin/parinfer-mode")
-
-(defmacro parinfer-mode-> (&rest body)
-  (let ((result (pop body)))
-    (dolist (form body result)
-      (setq result (append (list (car form) result)
-                           (cdr form))))))
-
-(defun parinfer-mode-post (url text cursor line)
-  (let ((url-request-method "POST")
-        (url-request-extra-headers '(("Content-Type" . "application/json")))
-        (url-request-data (parinfer-mode-> '()
-                                           (plist-put :text text)
-                                           (plist-put :cursor cursor)
-                                           (plist-put :line line)
-                                           (json-encode))))
-    (url-retrieve url (parinfer-mode-kill-and-replace-buffer))))
-
-(defun parinfer-mode-kill-and-replace-buffer ()
-  (let ((old-buffer (current-buffer))
-        (old-point (point)))
-    (lambda (status)
-      (re-search-forward "^$" nil 'move)
-      (forward-char)
-      (copy-to-buffer old-buffer (point) (buffer-size))
-      (kill-buffer (current-buffer))
-      (switch-to-buffer old-buffer)
-      (goto-char old-point))))
+(defun parinfer-mode-insert-result (result)
+  (if (and (plist-get result :success)
+           (not (and (= (char-before (point)) 10)
+                     (= (char-after (point)) 41))))
+      (let ((old-buffer (current-buffer))
+            (old-point (point)))
+        (with-temp-buffer
+          (insert (plist-get result :text))
+          (copy-to-buffer old-buffer (point-min) (point-max)))
+        (goto-char old-point))))
 
 (defun parinfer-mode-indent-mode ()
-  (parinfer-mode-post "http://localhost:8088/indent-mode"
-                      (buffer-string)
-                      (current-column)
-                      (- (line-number-at-pos) 1)))
+  (parinfer-mode-insert-result (parinferlib-indent-mode (buffer-string)
+                                                        (current-column)
+                                                        (- (line-number-at-pos) 1)
+                                                        nil)))
 
 (defun parinfer-mode-paren-mode ()
-  (parinfer-mode-post "http://localhost:8088/paren-mode"
-                      (buffer-string)
-                      (current-column)
-                      (- (line-number-at-pos) 1)))
+  (parinfer-mode-insert-result (parinferlib-paren-mode (buffer-string)
+                                                       (current-column)
+                                                       (- (line-number-at-pos) 1)
+                                                       nil)))
 
 (define-minor-mode parinfer-mode
   "Uses Parinfer to Format lispy code"
-  :lighter " parinfer"
+  :lighter " parinfer "
   (if parinfer-mode
       (progn
         (parinfer-mode-paren-mode)
