@@ -9,7 +9,7 @@ This package provides a [[http://shaunlebron.github.io/parinfer/index.html][pari
 - Add the path to the project folder to your load path by adding
     =(add-to-list 'load-path "<project-folder>")= to your =init.el=
 - Add =(require 'parinfer-mode)= to your =init.el=
-- Run =M-x parinfer-mode= to activate it for a buffer
+- Restart emacs and run =M-x parinfer-mode= to activate it for a buffer
 
 Optionally you can make =parinfer-mode= enabled by default in =clojure-mode= by
 adding
