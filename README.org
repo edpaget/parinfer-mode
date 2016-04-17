@@ -6,8 +6,8 @@ This package provides a [[http://shaunlebron.github.io/parinfer/index.html][pari
 * Usage
 
 - Clone this repo
-- Add the path to the project folder to your load path
-    =(add-to-list 'load-path "<project-folder>")=
+- Add the path to the project folder to your load path by adding
+    =(add-to-list 'load-path "<project-folder>")= to your =init.el=
 - Add =(require 'parinfer-mode)= to your =init.el=
 - Run =M-x parinfer-mode= to activate it for a buffer
 
