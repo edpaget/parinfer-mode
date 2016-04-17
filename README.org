@@ -16,7 +16,7 @@ adding
 
     =(add-hook 'clojure-mode-hook 'parinfer-mode)=
 
-to your =init.el.=
+to your =init.el= .
 
 * Contributing
 
