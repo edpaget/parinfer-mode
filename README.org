@@ -6,9 +6,17 @@ This package provides a [[http://shaunlebron.github.io/parinfer/index.html][pari
 * Usage
 
 - Clone this repo
-- open =parinfer-mode.el= in emacs
-- eval the file
-- run =M-x parinfer-mode= to activate it for a buffer
+- Add the path to the project folder to your load path by adding
+    =(add-to-list 'load-path "<project-folder>")= to your =init.el=
+- Add =(require 'parinfer-mode)= to your =init.el=
+- Restart emacs and run =M-x parinfer-mode= to activate it for a buffer
+
+Optionally you can make =parinfer-mode= enabled by default in =clojure-mode= by
+adding
+
+    =(add-hook 'clojure-mode-hook 'parinfer-mode)=
+
+to your =init.el= .
 
 * Contributing
 
